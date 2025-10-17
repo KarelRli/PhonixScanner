@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phonix_scanner/screens/opening_screen.dart';
-import 'package:phonix_scanner/screens/scanning_screen.dart';
+import 'package:phonix_scanner/screens/configuration_screen.dart';
 
 void main() {
   runApp(const PhonixScanner());
@@ -15,7 +15,7 @@ class PhonixScanner extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => OpeningScreen(),
-        '/scanning': (context) => ScanningScreen(),
+        '/configuration': (context) => ConfigurationScreen(),
       },
     );
   }

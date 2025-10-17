@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phonix_scanner/colors.dart';
 
 class InputField extends StatelessWidget {
   final String suggestion;
@@ -8,21 +9,21 @@ class InputField extends StatelessWidget {
   final bool obscureText;
 
   const InputField({
-    Key? key,
+    super.key,
     required this.suggestion,
     this.controller,
     this.onChanged,
     this.keyboardType,
     this.obscureText = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
+      borderRadius: BorderRadius.circular(10.0),
       borderSide: const BorderSide(
         width: 1.0,
-        color: Colors.grey,
+        color: AppColors.white30,
       ),
     );
 
@@ -32,11 +33,14 @@ class InputField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: AppColors.white30,
         hintText: suggestion,
+        hintStyle: const TextStyle(color: AppColors.hint),
         contentPadding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 14.0),
         enabledBorder: border,
         focusedBorder: border.copyWith(
-          borderSide: const BorderSide(width: 1.0, color: Colors.blue),
+          borderSide: const BorderSide(width: 1.0, color: AppColors.white),
         ),
       ),
     );

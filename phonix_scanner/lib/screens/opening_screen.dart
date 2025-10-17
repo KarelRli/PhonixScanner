@@ -17,7 +17,7 @@ class OpeningScreen extends StatelessWidget {
             Logo(
               size: 120,
               isAnimated: true,
-              action: () => Navigator.pushNamed(context, '/scanning'),
+              action: () => Navigator.pushNamed(context, '/configuration'),
             ),
             const SizedBox(height: 20),
             const Text(
