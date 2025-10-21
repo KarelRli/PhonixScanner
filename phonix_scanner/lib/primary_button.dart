@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:phonix_scanner/colors.dart';
 
-class ScannerBtn extends StatelessWidget {
-  const ScannerBtn({super.key});
+class PrimaryButton extends StatelessWidget {
+  const PrimaryButton(this.text, this.action, {super.key});
+
+  final String text;
+  final VoidCallback action;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-      // TODO: activate scanner
+        action();
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.white,
@@ -19,13 +22,13 @@ class ScannerBtn extends StatelessWidget {
       ),
       child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
+      children: [
         Text(
-          'Continue to Scanner',
-          style: TextStyle(fontSize: 14),
+          text,
+          style: const TextStyle(fontSize: 14),
         ),
-        SizedBox(width: 16),
-        Icon(Icons.arrow_forward),
+        const SizedBox(width: 16),
+        const Icon(Icons.arrow_forward),
       ],
       ),
     );

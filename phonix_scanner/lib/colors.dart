@@ -8,5 +8,9 @@ class AppColors {
   static const Color white10 = Color(0x33FFFFFF);
   static const Color white20 = Color(0x33FFFFFF);
   static const Color white30 = Color(0x4DFFFFFF);
+  static const Color white50 = Color(0x8FFFFFFF);
+  static const Color white80 = Color(0xDFFFFFFF);
   static const Color hint = Color(0x99535353);
+  static const Color eventIcon = Color(0xFF6A46F5);
+  static const Color contractIcon = Color(0xFF05DF72);
 }

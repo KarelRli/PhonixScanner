@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phonix_scanner/colors.dart';
+import 'package:phonix_scanner/secondary_box.dart';
 
 class TextBox extends StatelessWidget {
   const TextBox(this.text, this.alignment, {super.key});
@@ -9,16 +10,7 @@ class TextBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: AppColors.white05,
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(
-          color: AppColors.white10,
-          width: 1.0,
-        ),
-      ),
+    return SecondaryBox(
       child: Text(
         text,
         textAlign: alignment,

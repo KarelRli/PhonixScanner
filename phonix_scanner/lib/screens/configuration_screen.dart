@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phonix_scanner/colors.dart';
 import 'package:phonix_scanner/configuration_block.dart';
 import 'package:phonix_scanner/logo.dart';
-import 'package:phonix_scanner/scanner_button.dart';
+import 'package:phonix_scanner/primary_button.dart';
 import 'package:phonix_scanner/textbox.dart';
 import 'package:phonix_scanner/back_button.dart';
 
@@ -43,7 +43,7 @@ class ConfigurationScreen extends StatelessWidget {
             const SizedBox(height: 24.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: const ScannerBtn(),
+              child: PrimaryButton("Continue to Scanner", () => Navigator.pushNamed(context, '/scanning')),
             ),
             const SizedBox(height: 12.0),
             Padding(
