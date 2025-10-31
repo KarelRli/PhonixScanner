@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phonix_scanner/app_status_box.dart';
-import 'package:phonix_scanner/blockchain_networks.dart';
+import 'package:phonix_scanner/models/blockchain_networks.dart';
 import 'package:phonix_scanner/colors.dart';
 import 'package:phonix_scanner/contract_data_box.dart';
 import 'package:phonix_scanner/event_data_box.dart';
@@ -9,6 +9,8 @@ import 'package:phonix_scanner/nfc_scan_area.dart';
 import 'package:phonix_scanner/primary_button.dart';
 import 'package:phonix_scanner/scan_instructions.dart';
 import 'package:phonix_scanner/hyperlink.dart';
+import 'package:provider/provider.dart';
+import 'package:phonix_scanner/models/contract_model.dart';
 
 class ScanningScreen extends StatefulWidget {
   const ScanningScreen({super.key});
@@ -57,17 +59,21 @@ class _ScanningScreenState extends State<ScanningScreen> {
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: const EventDataBox(),
+                  child: EventDataBox(),
                 ),
 
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: const ContractDataBox(
-                      contractName: "the contract's name!",
-                      blockchain: BlockchainNetworks.ethereumMainnet,
-                      address: "0x1234567890abcdef1234567890abcdef12345678"
-                    ),
+                  child: Consumer<ContractModel>(
+                    builder: (context, model, child) {
+                      return ContractDataBox(
+                        contractName: model.name,
+                        blockchain: model.blockchain ?? BlockchainNetworks.ethereumMainnet,
+                        address: model.contractAddress
+                      );
+                    },
+                  ),
                 ),
 
                 const SizedBox(height: 20),

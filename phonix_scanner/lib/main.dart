@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:phonix_scanner/models/contract_model.dart';
 import 'package:phonix_scanner/screens/opening_screen.dart';
 import 'package:phonix_scanner/screens/configuration_screen.dart';
 import 'package:phonix_scanner/screens/scanning_screen.dart';
 void main() {
-  runApp(const PhonixScanner());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ContractModel(),
+      child: const PhonixScanner(),
+    )
+  );
 }
 
 class PhonixScanner extends StatelessWidget {

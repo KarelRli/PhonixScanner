@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:phonix_scanner/colors.dart';
 
-class BackBtn extends StatelessWidget {
-  const BackBtn(this.route, {super.key});
+class SecondaryButton extends StatelessWidget {
+  const SecondaryButton(this.text, {super.key, required this.action});
 
-  final String route;
+  final String text;
+  final VoidCallback action;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.pushNamed(context, route);
+        action();
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.transparent,
@@ -22,10 +23,10 @@ class BackBtn extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Text(
-            'Back',
-            style: TextStyle(fontSize: 14),
+            text,
+            style: const TextStyle(fontSize: 14),
           ),
         ],
       ),

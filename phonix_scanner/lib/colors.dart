@@ -13,4 +13,6 @@ class AppColors {
   static const Color hint = Color(0x99535353);
   static const Color eventIcon = Color(0xFF6A46F5);
   static const Color contractIcon = Color(0xFF05DF72);
+  static const Color disabledPrimaryButton = Color(0xFFD4C9FC);
+  static const Color error = Color(0xFFFF6467);
 }

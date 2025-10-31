@@ -26,7 +26,7 @@ class EventDataBox extends StatelessWidget {
               children: [
                 const Icon(Icons.calendar_today_outlined, size: 22.0, color: AppColors.eventIcon,),
                 const SizedBox(height: 8.0),
-                const Text('Dec 15', style: TextStyle(fontSize: 14.0)),
+                const Text('-', style: TextStyle(fontSize: 14.0)),
               ],
             ),
           ),
@@ -48,7 +48,7 @@ class EventDataBox extends StatelessWidget {
               children: [
                 const Icon(Icons.people_outline_outlined, size: 22.0, color: AppColors.eventIcon,),
                 const SizedBox(height: 8.0),
-                const Text('VIP', style: TextStyle(fontSize: 14.0)),
+                const Text('-', style: TextStyle(fontSize: 14.0)),
               ],
             ),
           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phonix_scanner/blockchain_networks.dart';
+import 'package:phonix_scanner/models/blockchain_networks.dart';
 import 'package:phonix_scanner/colors.dart';
 import 'package:phonix_scanner/secondary_box.dart';
 
@@ -9,6 +9,11 @@ class ContractDataBox extends StatelessWidget {
   final String contractName;
   final BlockchainNetworks blockchain;
   final String address;
+
+  String _shortenAddress(String addr) {
+    if (addr.length <= 10) return addr;
+    return '${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,7 @@ class ContractDataBox extends StatelessWidget {
                   style: const TextStyle(fontSize: 12),
                 ),
                 Text(
-                  address,
+                  _shortenAddress(address),
                   style: const TextStyle(fontSize: 12),
                 ),
                 Text(

@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:phonix_scanner/colors.dart';
 
 class PrimaryButton extends StatelessWidget {
-  const PrimaryButton(this.text, this.action, {super.key});
+  const PrimaryButton(this.text, this.action, {super.key, this.disabled = false});
 
   final String text;
   final VoidCallback action;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: disabled ? null : () {
         action();
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.white,
+        backgroundColor: disabled ? AppColors.disabledPrimaryButton : AppColors.white,
         foregroundColor: AppColors.black,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
