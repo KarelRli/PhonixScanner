@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:phonix_scanner/colors.dart';
 
 class PrimaryButton extends StatelessWidget {
-  const PrimaryButton(this.text, this.action, {super.key, this.disabled = false});
+  const PrimaryButton(this.text, this.action, {super.key, this.disabled = false, this.icon = Icons.arrow_forward});
 
   final String text;
   final VoidCallback action;
   final bool disabled;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class PrimaryButton extends StatelessWidget {
           style: const TextStyle(fontSize: 14),
         ),
         const SizedBox(width: 16),
-        const Icon(Icons.arrow_forward),
+        if (icon != null) Icon(icon),
       ],
       ),
     );

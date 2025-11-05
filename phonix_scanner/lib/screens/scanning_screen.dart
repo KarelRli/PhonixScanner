@@ -11,6 +11,8 @@ import 'package:phonix_scanner/scan_instructions.dart';
 import 'package:phonix_scanner/hyperlink.dart';
 import 'package:provider/provider.dart';
 import 'package:phonix_scanner/models/contract_model.dart';
+import 'package:phonix_scanner/services/nfc_service.dart';
+import 'package:phonix_scanner/services/blockchain_service.dart';
 
 class ScanningScreen extends StatefulWidget {
   const ScanningScreen({super.key});
@@ -21,6 +23,110 @@ class ScanningScreen extends StatefulWidget {
 
 class _ScanningScreenState extends State<ScanningScreen> {
   bool isScanning = false;
+  bool isNfcAvailable = false;
+  String? walletAddress;
+  String? nfcError;
+  bool isCheckingOwnership = false;
+  String? ownershipError;
+  // null = unknown/not checked yet, true = owns nft, false = does not own
+  bool? ownershipResult;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeNfc();
+  }
+
+  Future<void> _initializeNfc() async {
+    try {
+      final available = await NfcService.initialize();
+      setState(() {
+        isNfcAvailable = available;
+      });
+    } catch (e) {
+      setState(() {
+        nfcError = 'NFC initialization failed: $e';
+      });
+    }
+  }
+
+  Future<void> _startNfcScan() async {
+
+    if (!isNfcAvailable) {
+      setState(() {
+        nfcError = 'NFC is not available on this device';
+      });
+      return;
+    }
+
+    setState(() {
+      isScanning = true;
+      nfcError = null;
+      walletAddress = null;
+    });
+
+    try {
+      final address = await NfcService.startNfcSession();
+      setState(() {
+        walletAddress = address;
+        isScanning = false;
+      });
+
+      if (address != null) {
+        await _checkNftOwnership(address);
+      }
+    } catch (e) {
+      setState(() {
+        nfcError = 'NFC scan failed: $e';
+        isScanning = false;
+      });
+    }
+  }
+
+  Future<void> _cancelNfcScan() async {
+    await NfcService.cancelScan();
+    setState(() {
+      isScanning = false;
+      nfcError = 'Scan cancelled';
+    });
+  }
+
+  Future<void> _checkNftOwnership(String addressToCheck) async {
+    final contractModel = context.read<ContractModel>();
+    
+    if (!contractModel.isValid) {
+      setState(() {
+        ownershipError = 'Invalid contract configuration';
+      });
+      return;
+    }
+
+    setState(() {
+      isCheckingOwnership = true;
+      ownershipError = null;
+      ownershipResult = null;
+    });
+
+    try {
+      final owns = await BlockchainService.checkNftOwnership(
+        contractModel.blockchain!,
+        contractModel.contractAddress,
+        addressToCheck,
+      );
+
+      setState(() {
+        ownershipResult = owns.ownership;
+        nfcError = owns.error;
+        isCheckingOwnership = false;
+      });
+    } catch (e) {
+      setState(() {
+        ownershipError = 'Failed to check ownership: $e';
+        isCheckingOwnership = false;
+        ownershipResult = null;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,20 +191,27 @@ class _ScanningScreenState extends State<ScanningScreen> {
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: NfcScanArea(scanning: isScanning),
+                  child: NfcScanArea(
+                    scanning: isScanning,
+                    ownershipResult: ownershipResult,
+                  ),
                 ),
 
-                const SizedBox(height: 24.0),
+                const SizedBox(height: 12.0),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: PrimaryButton(
-                    "Start NFC Scan",
-                    () {
-                      setState(() {
-                        isScanning = true;
-                      });
-                    },
-                  ),
+                        isScanning ? "Scanning..." : "Start NFC Scan",
+                        () {
+                          if (isScanning) {
+                            _cancelNfcScan();
+                          } else {
+                            _startNfcScan();
+                          }
+                        },
+                        icon: isScanning ? null : Icons.arrow_forward,
+                      ),
                 ),
 
                 const SizedBox(height: 24.0),
@@ -136,6 +249,22 @@ class _ScanningScreenState extends State<ScanningScreen> {
                       color: AppColors.black,
                     ),
                   ],
+                ),
+                Text(
+                  walletAddress != null
+                      ? 'Wallet Address: $walletAddress'
+                      : nfcError != null
+                          ? 'Error: $nfcError'
+                          : '',
+                ),
+
+                Text(
+                  ownershipError != null ? 'Error: $ownershipError' : '',
+                  style: const TextStyle(color: Colors.red),
+                ),
+                Text(
+                  nfcError != null ? 'Error: $nfcError' : '',
+                  style: const TextStyle(color: Colors.red),
                 )
               ],
             ),

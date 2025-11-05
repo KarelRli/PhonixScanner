@@ -4,7 +4,9 @@ import 'package:dotted_border/dotted_border.dart';
 
 class NfcScanArea extends StatefulWidget {
   final bool scanning;
-  const NfcScanArea({super.key, required this.scanning});
+  // null = no result yet, true = owns, false = doesn't own
+  final bool? ownershipResult;
+  const NfcScanArea({super.key, required this.scanning, this.ownershipResult});
 
   @override
   State<NfcScanArea> createState() => _NfcScanAreaState();
@@ -89,20 +91,42 @@ class _NfcScanAreaState extends State<NfcScanArea> with SingleTickerProviderStat
                       ),
                     );
                   },
-                  child: _buildImagePlaceholder(),
+                  child: _buildContent(),
                 ),
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
-              'Ready to scan',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 6),
-            const Text(
-              'Tap the button below and hold your Burner.pro card near your device',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: Colors.black54),
+            Builder(
+              builder: (_) {
+                String titleText;
+
+                if (widget.scanning) {
+                  titleText = 'Scanning';
+                } else if (widget.ownershipResult == true) {
+                  titleText = 'Ownership detected';
+                } else if (widget.ownershipResult == false) {
+                  titleText = 'No ownership found';
+                } else {
+                  titleText = 'Ready to scan';
+                }
+
+                final showSecondary = !widget.scanning && widget.ownershipResult == null;
+                return Column(
+                  children: [
+                    Text(
+                      titleText,
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 6),
+                    if (showSecondary)
+                      const Text(
+                        'Tap the button below and hold your Burner.pro card near your device',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 13, color: Colors.black54),
+                      ),
+                  ],
+                );
+              },
             ),
           ],
         ),
@@ -119,5 +143,31 @@ class _NfcScanAreaState extends State<NfcScanArea> with SingleTickerProviderStat
         fit: BoxFit.contain,
       ),
     );
+  }
+
+  Widget _buildContent() {
+    if (widget.scanning) {
+      return _buildImagePlaceholder();
+    }
+
+    // If there's an ownership result, show check or cross
+    if (widget.ownershipResult != null) {
+      if (widget.ownershipResult == true) {
+        return Icon(
+          Icons.check_circle,
+          color: Colors.green[700],
+          size: 96,
+        );
+      } else {
+        return Icon(
+          Icons.cancel,
+          color: Colors.red[700],
+          size: 96,
+        );
+      }
+    }
+
+    // Default when not scanning and no result
+    return _buildImagePlaceholder();
   }
 }
