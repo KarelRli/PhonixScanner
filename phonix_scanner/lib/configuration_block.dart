@@ -86,8 +86,7 @@ class _ConfigurationBlockState extends State<ConfigurationBlock> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: DropDownField(
-                suggestion: 'Select blockchain',
+              child: CustomDropDown(
                 items: [
                   BlockchainNetworks.ethereumMainnet,
                   BlockchainNetworks.polygon,
@@ -96,7 +95,7 @@ class _ConfigurationBlockState extends State<ConfigurationBlock> {
                   BlockchainNetworks.base,
                   BlockchainNetworks.gnosisChain,
                 ],
-                value: contractModel.blockchain,
+                selectedValue: contractModel.blockchain,
                 onChanged: (value) {
                   contractModel.blockchain = value;
                 },

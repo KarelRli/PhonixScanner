@@ -51,6 +51,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
   }
 
   Future<void> _startNfcScan() async {
+    if (!isNfcAvailable) await _initializeNfc(); // Refresh NFC availability
 
     if (!isNfcAvailable) {
       setState(() {

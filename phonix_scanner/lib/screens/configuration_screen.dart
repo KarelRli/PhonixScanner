@@ -85,6 +85,7 @@ class ConfigurationScreen extends StatelessWidget {
                     TextAlign.center,
                   ),
                 ),
+                const SizedBox(height: 24.0),
               ],
             ),
           ),
