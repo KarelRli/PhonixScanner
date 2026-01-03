@@ -117,7 +117,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
 
       setState(() {
         ownershipResult = owns.ownership;
-        nfcError = owns.error;
+        ownershipError = owns.error;
         isCheckingOwnership = false;
       });
     } catch (e) {

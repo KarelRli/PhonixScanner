@@ -23,11 +23,12 @@ class BlockchainService {
     String contractAddress,
     String walletAddress,
   ) async {
+    web3dart.Web3Client? client;
     try {
       final rpcUrl = _rpcEndpoints[blockchain];
       if (rpcUrl == null) throw Exception('Unsupported blockchain network');
 
-      final client = web3dart.Web3Client(rpcUrl, Client());
+      client = web3dart.Web3Client(rpcUrl, Client());
 
       const abi = '''
       [
@@ -54,13 +55,27 @@ class BlockchainService {
         params: [EthereumAddress.fromHex(walletAddress.toLowerCase())],
       );
 
+      if (result.isEmpty || result.first is! BigInt) {
+        return Wrapper()..ownership = false;
+      }
+
       final balance = result.first as BigInt;
-
-      await client.dispose();
-
       return Wrapper()..ownership = (balance > BigInt.zero);
+    } on RangeError {
+      // Most commonly happens when the call returns empty/invalid data
+      // (wrong contract, wrong chain, or non-ERC721 ABI) and web3dart can't decode.
+      // Treat as "no ownership" for UX.
+      return Wrapper()..ownership = false;
+    } on FormatException {
+      return Wrapper()..ownership = false;
+    } on ArgumentError {
+      return Wrapper()..ownership = false;
     } catch (e) {
       return Wrapper()..error = 'Error checking NFT ownership: $e';
+    } finally {
+      if (client != null) {
+        await client.dispose();
+      }
     }
   }
 }
