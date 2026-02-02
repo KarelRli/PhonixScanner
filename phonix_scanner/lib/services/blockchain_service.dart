@@ -14,7 +14,7 @@ class BlockchainService {
     BlockchainNetworks.polygon: 'https://polygon-bor-rpc.publicnode.com',
     BlockchainNetworks.optimism: 'https://optimism-rpc.publicnode.com',
     BlockchainNetworks.arbitrumOne: 'https://arbitrum-one-rpc.publicnode.com',
-    BlockchainNetworks.base: 'https://base.llamarpc.com',
+    BlockchainNetworks.base: 'https://base-rpc.publicnode.com',
     BlockchainNetworks.gnosisChain: 'https://gnosis-rpc.publicnode.com',
   };
 
