@@ -31,10 +31,43 @@ class _ScanningScreenState extends State<ScanningScreen> {
   // null = unknown/not checked yet, true = owns nft, false = does not own
   bool? ownershipResult;
 
+  final List<String> _logs = [];
+
   @override
   void initState() {
     super.initState();
     _initializeNfc();
+    _runOwnershipTest();
+  }
+
+  Future<void> _runOwnershipTest() async {
+    const testWallet = '0xaBD303449eFCB3d266bC2a2e4448c89E4a652d99';
+    const testContract = '0x399dd7186e6c696306909c9d08f5ae23b0e9c6f5';
+    const testNetwork = BlockchainNetworks.base;
+
+    setState(() {
+      _logs.add('--- Running Static Ownership Test ---');
+    });
+
+    try {
+      final result = await BlockchainService.checkNftOwnership(
+        testNetwork,
+        testContract,
+        testWallet,
+      );
+      setState(() {
+        _logs.add('Test Result: Ownership = ${result.ownership}');
+        if (result.error != null) {
+          _logs.add('Test Error: ${result.error}');
+        }
+        _logs.addAll(result.logs);
+        _logs.add('--- Static Ownership Test Finished ---');
+      });
+    } catch (e) {
+      setState(() {
+        _logs.add('!!! Static Ownership Test Failed: $e !!!');
+      });
+    }
   }
 
   Future<void> _initializeNfc() async {
@@ -106,6 +139,8 @@ class _ScanningScreenState extends State<ScanningScreen> {
       isCheckingOwnership = true;
       ownershipError = null;
       ownershipResult = null;
+      _logs.clear();
+      _logs.add('--- Checking NFT Ownership ---');
     });
 
     try {
@@ -119,12 +154,15 @@ class _ScanningScreenState extends State<ScanningScreen> {
         ownershipResult = owns.ownership;
         ownershipError = owns.error;
         isCheckingOwnership = false;
+        _logs.addAll(owns.logs);
+        _logs.add('--- Ownership Check Finished ---');
       });
     } catch (e) {
       setState(() {
         ownershipError = 'Failed to check ownership: $e';
         isCheckingOwnership = false;
         ownershipResult = null;
+        _logs.add('!!! Ownership Check Failed: $e !!!');
       });
     }
   }
@@ -251,22 +289,69 @@ class _ScanningScreenState extends State<ScanningScreen> {
                     ),
                   ],
                 ),
-                Text(
-                  walletAddress != null
-                      ? 'Wallet Address: $walletAddress'
-                      : nfcError != null
-                          ? 'Error: $nfcError'
-                          : '',
-                ),
+                //Text(
+                //  walletAddress != null
+                //      ? 'Wallet Address: $walletAddress'
+                //      : nfcError != null
+                //          ? 'Error: $nfcError'
+                //          : '',
+                //),
 
-                Text(
-                  ownershipError != null ? 'Error: $ownershipError' : '',
-                  style: const TextStyle(color: Colors.red),
-                ),
-                Text(
-                  nfcError != null ? 'Error: $nfcError' : '',
-                  style: const TextStyle(color: Colors.red),
-                )
+
+                if (walletAddress != null || nfcError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      walletAddress != null
+                          ? 'Wallet Address: $walletAddress'
+                          : nfcError != null
+                              ? 'NFC Error: $nfcError'
+                              : '',
+                      style: TextStyle(color: nfcError != null ? Colors.red : AppColors.black),
+                    ),
+                  ),
+                if (ownershipError != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Ownership Error: $ownershipError',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+                if (_logs.isNotEmpty)
+                  Container(
+                    margin: const EdgeInsets.all(24.0),
+                    padding: const EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: Colors.grey[400]!),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Logs:',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8.0),
+                        ..._logs.map((log) => Text(
+                              log,
+                              style: const TextStyle(fontFamily: 'monospace', fontSize: 10),
+                            )),
+                      ],
+                    ),
+                  ),
+
+
+                //Text(
+                //  ownershipError != null ? 'Error: $ownershipError' : '',
+                //  style: const TextStyle(color: Colors.red),
+                //),
+                //Text(
+                //  nfcError != null ? 'Error: $nfcError' : '',
+                //  style: const TextStyle(color: Colors.red),
+                //)
               ],
             ),
           ),
