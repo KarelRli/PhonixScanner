@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phonix_scanner/colors.dart';
+import 'package:phonix_scanner/footer.dart';
 import 'package:phonix_scanner/logo.dart';
 import 'package:phonix_scanner/hyperlink.dart';
 
@@ -25,7 +26,7 @@ class OpeningScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
-                color: AppColors.white,
+                color: AppColors.fontHighlight,
               ),
             ),
             const SizedBox(height: 10),
@@ -33,7 +34,7 @@ class OpeningScreen extends StatelessWidget {
               'Verify your Memberships',
               style: TextStyle(
                 fontSize: 16,
-                color: AppColors.black,
+                color: AppColors.font,
               ),
             ),
             const SizedBox(height: 10),
@@ -41,24 +42,25 @@ class OpeningScreen extends StatelessWidget {
               'Powered By',
               style: TextStyle(
                 fontSize: 12,
-                color: AppColors.black,
+                color: AppColors.font,
               ),
             ),
             const SizedBox(height: 10),
             Hyperlink(
               text: 'Unlock Protocol',
               url: 'https://unlock-protocol.com/',
-              color: AppColors.black,
+              color: AppColors.font,
             ),
             const SizedBox(height: 10),
             Hyperlink(
               text: 'Burner.pro',
               url: 'https://www.burner.pro/',
-              color: AppColors.black,
+              color: AppColors.font,
             ),
           ],
         ),
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }

@@ -4,9 +4,8 @@ import 'package:phonix_scanner/colors.dart';
 import 'package:phonix_scanner/secondary_box.dart';
 
 class ContractDataBox extends StatelessWidget {
-  const ContractDataBox({super.key, this.contractName = '', required this.blockchain, required this.address});
+  const ContractDataBox({super.key, required this.blockchain, required this.address});
 
-  final String contractName;
   final BlockchainNetworks blockchain;
   final String address;
 
@@ -24,11 +23,15 @@ class ContractDataBox extends StatelessWidget {
           children: [
             Row(
               children: const [
-                Icon(Icons.circle, color: AppColors.contractIcon, size: 10),
-                SizedBox(width: 8),
+                Icon(Icons.check_circle_outline_outlined, color: AppColors.fontHighlight, size: 18),
+                SizedBox(width: 6),
                 Text(
-                  "Contract Configured",
-                  style: TextStyle(fontSize: 16),
+                  "Contract Active",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.font,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -36,16 +39,18 @@ class ContractDataBox extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  contractName,
-                  style: const TextStyle(fontSize: 12),
-                ),
-                Text(
                   _shortenAddress(address),
-                  style: const TextStyle(fontSize: 12),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.font
+                  ),
                 ),
                 Text(
                   blockchain.name,
-                  style: const TextStyle(fontSize: 12),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.font
+                  ),
                 ),
               ],
             ),
@@ -56,7 +61,7 @@ class ContractDataBox extends StatelessWidget {
           onTap: () {
             Navigator.pushNamed(context, '/configuration');
           },
-          child: const Icon(Icons.settings_outlined, size: 18),
+          child: const Icon(Icons.settings_outlined, size: 18, color: AppColors.font),
         ),
       ],
     ));

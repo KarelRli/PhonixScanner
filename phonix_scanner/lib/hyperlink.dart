@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:phonix_scanner/colors.dart';
 
 class Hyperlink extends StatelessWidget {
   final String text;
@@ -25,6 +26,7 @@ class Hyperlink extends StatelessWidget {
         style: TextStyle(
           color: color,
           decoration: TextDecoration.underline,
+          decorationColor: AppColors.font,
           fontSize: size,
         ),
       ),

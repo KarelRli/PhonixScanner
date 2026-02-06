@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:phonix_scanner/models/contract_model.dart';
 import 'package:phonix_scanner/screens/opening_screen.dart';
@@ -25,6 +26,10 @@ class PhonixScanner extends StatelessWidget {
         '/configuration': (context) => ConfigurationScreen(),
         '/scanning': (context) => ScanningScreen(),
       },
+      theme: ThemeData(
+        textTheme: GoogleFonts.robotoTextTheme(),
+        primaryTextTheme: GoogleFonts.robotoTextTheme(),
+      ),
     );
   }
 }

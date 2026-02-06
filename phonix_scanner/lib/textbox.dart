@@ -16,7 +16,7 @@ class TextBox extends StatelessWidget {
         textAlign: alignment,
         style: const TextStyle(
           fontSize: 14.0,
-          color: AppColors.black,
+          color: AppColors.font,
         ),
       ),
     );

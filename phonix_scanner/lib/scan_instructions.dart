@@ -17,14 +17,12 @@ class ScanningInstructions extends StatelessWidget {
           // Title
           Row(
             children: [
-              Icon(Icons.circle, color: AppColors.white, size: bigCircleRadius),
-              SizedBox(width: 8.0),
               Text(
                 'How to Scan',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.black,
+                  color: AppColors.font,
                 ),
               ),
             ],
@@ -53,14 +51,14 @@ class _Instruction extends StatelessWidget {
     return Row(
       children: [
         SizedBox(width: (bigCircleRadius - smallCircleRadius) / 2),
-        Icon(Icons.circle, color: AppColors.black, size: smallCircleRadius),
+        Icon(Icons.circle, color: AppColors.font, size: smallCircleRadius),
         SizedBox(width: 8.0),
         Expanded(
           child: Text(
             text,
             style: TextStyle(
               fontSize: 14,
-              color: AppColors.black,
+              color: AppColors.font,
             ),
           ),
         ),

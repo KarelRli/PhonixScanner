@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:phonix_scanner/app_status_box.dart';
 import 'package:phonix_scanner/models/blockchain_networks.dart';
 import 'package:phonix_scanner/colors.dart';
 import 'package:phonix_scanner/contract_data_box.dart';
-import 'package:phonix_scanner/event_data_box.dart';
 import 'package:phonix_scanner/logo.dart';
 import 'package:phonix_scanner/nfc_scan_area.dart';
 import 'package:phonix_scanner/primary_button.dart';
@@ -13,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:phonix_scanner/models/contract_model.dart';
 import 'package:phonix_scanner/services/nfc_service.dart';
 import 'package:phonix_scanner/services/blockchain_service.dart';
+import 'package:phonix_scanner/footer.dart';
 
 class ScanningScreen extends StatefulWidget {
   const ScanningScreen({super.key});
@@ -188,7 +187,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.black,
+                    color: AppColors.font,
                   ),
                 ),
 
@@ -197,14 +196,8 @@ class _ScanningScreenState extends State<ScanningScreen> {
                   'Verify NFT membership with NFC scan',
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppColors.black,
+                    color: AppColors.font,
                   ),
-                ),
-
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: EventDataBox(),
                 ),
 
                 const SizedBox(height: 20),
@@ -213,7 +206,6 @@ class _ScanningScreenState extends State<ScanningScreen> {
                   child: Consumer<ContractModel>(
                     builder: (context, model, child) {
                       return ContractDataBox(
-                        contractName: model.name,
                         blockchain: model.blockchain ?? BlockchainNetworks.ethereumMainnet,
                         address: model.contractAddress
                       );
@@ -224,33 +216,17 @@ class _ScanningScreenState extends State<ScanningScreen> {
                 const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: const AppStatusBox(),
-                ),
-
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: NfcScanArea(
                     scanning: isScanning,
                     ownershipResult: ownershipResult,
+                    onTap: () {
+                      if (isScanning) {
+                        _cancelNfcScan();
+                      } else {
+                        _startNfcScan();
+                      }
+                    },
                   ),
-                ),
-
-                const SizedBox(height: 12.0),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: PrimaryButton(
-                        isScanning ? "Scanning..." : "Start NFC Scan",
-                        () {
-                          if (isScanning) {
-                            _cancelNfcScan();
-                          } else {
-                            _startNfcScan();
-                          }
-                        },
-                        icon: isScanning ? null : Icons.arrow_forward,
-                      ),
                 ),
 
                 const SizedBox(height: 24.0),
@@ -267,25 +243,25 @@ class _ScanningScreenState extends State<ScanningScreen> {
                       'Powered By ',
                       style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.black,
+                        color: AppColors.font,
                       ),
                     ),
                     Hyperlink(
                       text: 'Unlock Protocol',
                       url: 'https://unlock-protocol.com/',
-                      color: AppColors.black,
+                      color: AppColors.font,
                     ),
                     const Text(
                       ' x ',
                       style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.black,
+                        color: AppColors.font,
                       ),
                     ),
                     Hyperlink(
                       text: 'Burner.pro',
                       url: 'https://www.burner.pro/',
-                      color: AppColors.black,
+                      color: AppColors.font,
                     ),
                   ],
                 ),
@@ -357,6 +333,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }

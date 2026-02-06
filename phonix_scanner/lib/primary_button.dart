@@ -11,17 +11,42 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final ButtonStyle style = ButtonStyle(
+      backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
+            return AppColors.white.withAlpha(0);
+          }
+          return AppColors.white;
+        },
+      ),
+      foregroundColor: WidgetStateProperty.resolveWith<Color?>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
+            return AppColors.font.withAlpha(50);
+          }
+          return AppColors.black;
+        },
+      ),
+      side: WidgetStateProperty.resolveWith<BorderSide?>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
+            return BorderSide(color: AppColors.white30);
+          }
+          return BorderSide(color: AppColors.white);
+        },
+      ),
+      elevation: WidgetStateProperty.all(0),
+      shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 0, vertical: 16)),
+    );
+
     return ElevatedButton(
       onPressed: disabled ? null : () {
         action();
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: disabled ? AppColors.disabledPrimaryButton : AppColors.white,
-        foregroundColor: AppColors.black,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
-      ),
+      style: style,
       child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

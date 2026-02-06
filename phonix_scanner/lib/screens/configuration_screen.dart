@@ -7,13 +7,13 @@ import 'package:phonix_scanner/primary_button.dart';
 import 'package:phonix_scanner/textbox.dart';
 import 'package:phonix_scanner/secondary_button.dart';
 import 'package:phonix_scanner/models/contract_model.dart';
+import 'package:phonix_scanner/footer.dart';
 
 class ConfigurationScreen extends StatelessWidget {
   const ConfigurationScreen({super.key});
 
   void _cleanFields(BuildContext context) {
     final contractModel = Provider.of<ContractModel>(context, listen: false);
-    contractModel.name = '';
     contractModel.contractAddress = '';
     contractModel.blockchain = null;
   }
@@ -33,10 +33,10 @@ class ConfigurationScreen extends StatelessWidget {
                 const Logo(size: 75, isAnimated: true),
                 const SizedBox(height: 20),
                 const Text(
-                  'Membership Scan',
+                  'Membership Input',
                   style: TextStyle(
                     fontSize: 24,
-                    color: AppColors.black,
+                    color: AppColors.font,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -44,7 +44,7 @@ class ConfigurationScreen extends StatelessWidget {
                   'Configure the NFT contract to verify',
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppColors.black,
+                    color: AppColors.font,
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -91,6 +91,7 @@ class ConfigurationScreen extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: const Footer(),
     );
   }
 }

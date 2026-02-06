@@ -6,7 +6,8 @@ class NfcScanArea extends StatefulWidget {
   final bool scanning;
   // null = no result yet, true = owns, false = doesn't own
   final bool? ownershipResult;
-  const NfcScanArea({super.key, required this.scanning, this.ownershipResult});
+  final VoidCallback onTap;
+  const NfcScanArea({super.key, required this.scanning, this.ownershipResult, required this.onTap});
 
   @override
   State<NfcScanArea> createState() => _NfcScanAreaState();
@@ -59,14 +60,16 @@ class _NfcScanAreaState extends State<NfcScanArea> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return DottedBorder(
-      options: RoundedRectDottedBorderOptions(
-        radius: Radius.circular(16.0),
-        dashPattern: [6, 4],
-        strokeWidth: 2.0,
-        color: AppColors.white50,
-      ),
-      child: Container(
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: DottedBorder(
+        options: RoundedRectDottedBorderOptions(
+          radius: Radius.circular(16.0),
+          dashPattern: [6, 4],
+          strokeWidth: 2.0,
+          color: AppColors.white50,
+        ),
+        child: Container(
         padding: const EdgeInsets.all(40.0),
         decoration: BoxDecoration(
           color: AppColors.white10,
@@ -107,7 +110,7 @@ class _NfcScanAreaState extends State<NfcScanArea> with SingleTickerProviderStat
                 } else if (widget.ownershipResult == false) {
                   titleText = 'No ownership found';
                 } else {
-                  titleText = 'Ready to scan';
+                  titleText = 'Tap to scan';
                 }
 
                 final showSecondary = !widget.scanning && widget.ownershipResult == null;
@@ -115,14 +118,14 @@ class _NfcScanAreaState extends State<NfcScanArea> with SingleTickerProviderStat
                   children: [
                     Text(
                       titleText,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.font),
                     ),
                     const SizedBox(height: 6),
                     if (showSecondary)
                       const Text(
-                        'Tap the button below and hold your Burner.pro card near your device',
+                        'Hold your Burner.pro card near the device',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 13, color: Colors.black54),
+                        style: TextStyle(fontSize: 13, color: AppColors.font),
                       ),
                   ],
                 );
@@ -130,6 +133,7 @@ class _NfcScanAreaState extends State<NfcScanArea> with SingleTickerProviderStat
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -141,6 +145,7 @@ class _NfcScanAreaState extends State<NfcScanArea> with SingleTickerProviderStat
       child: Image.asset(
         'assets/images/phoenix.png',
         fit: BoxFit.contain,
+        color: AppColors.font,
       ),
     );
   }
