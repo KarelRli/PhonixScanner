@@ -118,7 +118,7 @@ class _NfcScanAreaState extends State<NfcScanArea> with SingleTickerProviderStat
                   children: [
                     Text(
                       titleText,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.font),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.fontHighlight),
                     ),
                     const SizedBox(height: 6),
                     if (showSecondary)
@@ -160,7 +160,7 @@ class _NfcScanAreaState extends State<NfcScanArea> with SingleTickerProviderStat
       if (widget.ownershipResult == true) {
         return Icon(
           Icons.check_circle,
-          color: Colors.green[700],
+          color: AppColors.green,
           size: 96,
         );
       } else {

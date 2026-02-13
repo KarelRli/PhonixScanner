@@ -19,41 +19,50 @@ class Footer extends StatelessWidget {
             ),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text(
-              'By ',
-              style: TextStyle(
-                fontSize: 12,
-                color: AppColors.font,
-              ),
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Text(
+                  'Created by ',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.font,
+                  ),
+                ),
+                Hyperlink(
+                  text: 'The Alana Project',
+                  url: 'https://the-alana-project.xyz/',
+                  color: AppColors.font,
+                  size: 12,
+                ),
+              ],
             ),
-            Hyperlink(
-              text: 'The Alana Project',
-              url: 'https://the-alana-project.xyz/',
-              color: AppColors.font,
-              size: 12,
-            ),
-            SizedBox(width: 4),
-            Text(
-              '•',
-              style: TextStyle(
-                fontSize: 12,
-                color: AppColors.font,
-              ),
-            ),
-            SizedBox(width: 4),
-            Text(
-              'MIT',
-              style: TextStyle(
-                fontSize: 12,
-                color: AppColors.font,
-              ),
-            ),
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text(
+                  'This project is licenced under the ',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.font,
+                  ),
+                ),
+                Hyperlink(
+                  text: 'MIT licence',
+                  url: 'https://opensource.org/license/mit',
+                  color: AppColors.font,
+                  size: 12,
+                ),
+              ],
+            )
           ],
         ),
+        
       ),
     );
   }

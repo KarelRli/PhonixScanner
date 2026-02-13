@@ -55,7 +55,7 @@ class CustomDropDownState extends State<CustomDropDown> {
           child: Text(
             widget.selectedValue?.displayName ?? 'Select blockchain',
             style: TextStyle(
-              color: widget.selectedValue != null ? Colors.black : AppColors.hint,
+              color: widget.selectedValue != null ? AppColors.black : AppColors.hint,
               fontSize: 16,
               
             ),

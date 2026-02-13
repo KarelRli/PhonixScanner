@@ -39,6 +39,7 @@ class InputField extends StatelessWidget {
           onChanged: onChanged,
           keyboardType: keyboardType,
           obscureText: obscureText,
+          cursorColor: AppColors.fontHighlight,
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.white30,

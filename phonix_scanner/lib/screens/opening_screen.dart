@@ -10,7 +10,17 @@ class OpeningScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundPrimary,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings, color: AppColors.font),
+            onPressed: () => Navigator.pushNamed(context, '/settings'),
+          ),
+        ],
+      ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -169,7 +169,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundPrimary,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -235,36 +235,6 @@ class _ScanningScreenState extends State<ScanningScreen> {
                   child: const ScanningInstructions(),
                 ),
 
-                const SizedBox(height: 36.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Powered By ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.font,
-                      ),
-                    ),
-                    Hyperlink(
-                      text: 'Unlock Protocol',
-                      url: 'https://unlock-protocol.com/',
-                      color: AppColors.font,
-                    ),
-                    const Text(
-                      ' x ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.font,
-                      ),
-                    ),
-                    Hyperlink(
-                      text: 'Burner.pro',
-                      url: 'https://www.burner.pro/',
-                      color: AppColors.font,
-                    ),
-                  ],
-                ),
                 //Text(
                 //  walletAddress != null
                 //      ? 'Wallet Address: $walletAddress'
