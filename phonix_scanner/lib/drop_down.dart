@@ -55,9 +55,10 @@ class CustomDropDownState extends State<CustomDropDown> {
           child: Text(
             widget.selectedValue?.displayName ?? 'Select blockchain',
             style: TextStyle(
-              color: widget.selectedValue != null ? AppColors.black : AppColors.hint,
+              color: widget.selectedValue != null
+                  ? Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.black
+                  : AppColors.hint,
               fontSize: 16,
-              
             ),
           ),
         ),
@@ -158,19 +159,19 @@ class MenuWidget extends StatelessWidget {
           final item = items[index];
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 0.0),
-            child: Material(
+                child: Material(
               color: Colors.transparent,
               child: InkWell(
                 onTap: () => onItemSelected(item),
-                highlightColor: AppColors.backgroundPrimary,
+                    highlightColor: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(8),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   child: Text(
                     item.displayName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
-                      color: Colors.black87,
+                      color: Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.black,
                     ),
                   ),
                 ),

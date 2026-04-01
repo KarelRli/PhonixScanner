@@ -26,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
           if (states.contains(WidgetState.disabled)) {
             return AppColors.font.withAlpha(50);
           }
-          return AppColors.black;
+          return Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.black;
         },
       ),
       side: WidgetStateProperty.resolveWith<BorderSide?>(

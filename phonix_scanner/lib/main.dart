@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:phonix_scanner/colors.dart';
 import 'package:phonix_scanner/models/contract_model.dart';
 import 'package:phonix_scanner/models/settings_model.dart';
 import 'package:phonix_scanner/screens/opening_screen.dart';
@@ -38,12 +37,28 @@ class PhonixScanner extends StatelessWidget {
           },
           theme: ThemeData(
             scaffoldBackgroundColor: settings.backgroundColor,
-            textTheme: GoogleFonts.robotoTextTheme(),
-            primaryTextTheme: GoogleFonts.robotoTextTheme(),
-            textSelectionTheme: const TextSelectionThemeData(
-              cursorColor: AppColors.fontHighlight,
-              selectionColor: AppColors.fontHighlight,
-              selectionHandleColor: AppColors.fontHighlight,
+            textTheme: GoogleFonts.robotoTextTheme().apply(
+              bodyColor: settings.fontColor,
+              displayColor: settings.fontColor,
+            ),
+            primaryTextTheme: GoogleFonts.robotoTextTheme().apply(
+              bodyColor: settings.fontColor,
+              displayColor: settings.fontColor,
+            ),
+            appBarTheme: AppBarTheme(
+              backgroundColor: Colors.transparent,
+              foregroundColor: settings.fontColor,
+              iconTheme: IconThemeData(color: settings.fontColor),
+              titleTextStyle: GoogleFonts.roboto(
+                color: settings.fontColor,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            textSelectionTheme: TextSelectionThemeData(
+              cursorColor: settings.highlightColor,
+              selectionColor: settings.highlightColor,
+              selectionHandleColor: settings.highlightColor,
             ),
           ),
         );

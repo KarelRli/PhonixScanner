@@ -182,21 +182,21 @@ class _ScanningScreenState extends State<ScanningScreen> {
                 const Logo(size: 75, isAnimated: true),
 
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   'Event Access',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.font,
+                    color: Theme.of(context).textTheme.headlineSmall?.color ?? AppColors.font,
                   ),
                 ),
 
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   'Verify NFT membership with NFC scan',
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppColors.font,
+                    color: Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.font,
                   ),
                 ),
 
@@ -253,7 +253,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
                           : nfcError != null
                               ? 'NFC Error: $nfcError'
                               : '',
-                      style: TextStyle(color: nfcError != null ? Colors.red : AppColors.black),
+                      style: TextStyle(color: nfcError != null ? Colors.red : Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.black),
                     ),
                   ),
                 if (ownershipError != null)
