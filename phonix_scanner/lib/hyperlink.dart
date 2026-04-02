@@ -8,7 +8,13 @@ class Hyperlink extends StatelessWidget {
   final Color color;
   final double? size;
 
-  const Hyperlink({super.key, required this.text, required this.url, required this.color, this.size = 14});
+  const Hyperlink({
+    super.key,
+    required this.text,
+    required this.url,
+    required this.color,
+    this.size = 14,
+  });
 
   Future<void> _launchUrl() async {
     final Uri uri = Uri.parse(url);
@@ -26,7 +32,7 @@ class Hyperlink extends StatelessWidget {
         style: TextStyle(
           color: color,
           decoration: TextDecoration.underline,
-          decorationColor: AppColors.font,
+          decorationColor: color,
           fontSize: size,
         ),
       ),

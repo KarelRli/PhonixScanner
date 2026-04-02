@@ -7,10 +7,25 @@ import 'package:phonix_scanner/primary_button.dart';
 import 'package:phonix_scanner/textbox.dart';
 import 'package:phonix_scanner/secondary_button.dart';
 import 'package:phonix_scanner/models/contract_model.dart';
+import 'package:phonix_scanner/screens/settings_screen.dart';
 import 'package:phonix_scanner/footer.dart';
 
 class ConfigurationScreen extends StatelessWidget {
   const ConfigurationScreen({super.key});
+  Future<void> _openSettingsSheet(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => SizedBox(
+        height: screenHeight * 0.8,
+        child: const SettingsScreen(isBottomSheet: true),
+      ),
+    );
+  }
 
   void _cleanFields(BuildContext context) {
     final contractModel = Provider.of<ContractModel>(context, listen: false);
@@ -20,8 +35,31 @@ class ConfigurationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontColor =
+        Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.font;
+    
+    final highlightColor = Theme.of(context).textSelectionTheme.cursorColor ?? AppColors.fontHighlight;
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color:
+              Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.font,
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => _openSettingsSheet(context),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -32,20 +70,14 @@ class ConfigurationScreen extends StatelessWidget {
                 const SizedBox(height: 50),
                 const Logo(size: 75, isAnimated: true),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   'Membership Input',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: AppColors.font,
-                  ),
+                  style: TextStyle(fontSize: 24, color: highlightColor),
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   'Configure the NFT contract to verify',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.font,
-                  ),
+                  style: TextStyle(fontSize: 16, color: fontColor),
                 ),
                 const SizedBox(height: 40),
                 Padding(
@@ -73,7 +105,7 @@ class ConfigurationScreen extends StatelessWidget {
                     'Back',
                     action: () => {
                       _cleanFields(context),
-                      Navigator.pushNamed(context, '/')
+                      Navigator.pushNamed(context, '/'),
                     },
                   ),
                 ),

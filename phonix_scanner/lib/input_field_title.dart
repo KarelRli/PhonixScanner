@@ -8,15 +8,18 @@ class InputFieldTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontColor =
+        Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.font;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: AppColors.font,
+            color: fontColor,
           ),
         ),
         const SizedBox(height: 8),

@@ -9,6 +9,7 @@ import 'package:phonix_scanner/scan_instructions.dart';
 import 'package:phonix_scanner/hyperlink.dart';
 import 'package:provider/provider.dart';
 import 'package:phonix_scanner/models/contract_model.dart';
+import 'package:phonix_scanner/screens/settings_screen.dart';
 import 'package:phonix_scanner/services/nfc_service.dart';
 import 'package:phonix_scanner/services/blockchain_service.dart';
 import 'package:phonix_scanner/footer.dart';
@@ -31,6 +32,21 @@ class _ScanningScreenState extends State<ScanningScreen> {
   bool? ownershipResult;
 
   final List<String> _logs = [];
+
+  Future<void> _openSettingsSheet(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => SizedBox(
+        height: screenHeight * 0.8,
+        child: const SettingsScreen(isBottomSheet: true),
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -126,7 +142,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
 
   Future<void> _checkNftOwnership(String addressToCheck) async {
     final contractModel = context.read<ContractModel>();
-    
+
     if (!contractModel.isValid) {
       setState(() {
         ownershipError = 'Invalid contract configuration';
@@ -170,6 +186,24 @@ class _ScanningScreenState extends State<ScanningScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(
+          color:
+              Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.font,
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () => _openSettingsSheet(context),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -187,7 +221,9 @@ class _ScanningScreenState extends State<ScanningScreen> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).textTheme.headlineSmall?.color ?? AppColors.font,
+                    color:
+                        Theme.of(context).textSelectionTheme.cursorColor ??
+                        AppColors.font,
                   ),
                 ),
 
@@ -196,7 +232,9 @@ class _ScanningScreenState extends State<ScanningScreen> {
                   'Verify NFT membership with NFC scan',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.font,
+                    color:
+                        Theme.of(context).textTheme.bodyMedium?.color ??
+                        AppColors.font,
                   ),
                 ),
 
@@ -206,8 +244,10 @@ class _ScanningScreenState extends State<ScanningScreen> {
                   child: Consumer<ContractModel>(
                     builder: (context, model, child) {
                       return ContractDataBox(
-                        blockchain: model.blockchain ?? BlockchainNetworks.ethereumMainnet,
-                        address: model.contractAddress
+                        blockchain:
+                            model.blockchain ??
+                            BlockchainNetworks.ethereumMainnet,
+                        address: model.contractAddress,
                       );
                     },
                   ),
@@ -242,8 +282,6 @@ class _ScanningScreenState extends State<ScanningScreen> {
                 //          ? 'Error: $nfcError'
                 //          : '',
                 //),
-
-
                 if (walletAddress != null || nfcError != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
@@ -251,9 +289,14 @@ class _ScanningScreenState extends State<ScanningScreen> {
                       walletAddress != null
                           ? 'Wallet Address: $walletAddress'
                           : nfcError != null
-                              ? 'NFC Error: $nfcError'
-                              : '',
-                      style: TextStyle(color: nfcError != null ? Colors.red : Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.black),
+                          ? 'NFC Error: $nfcError'
+                          : '',
+                      style: TextStyle(
+                        color: nfcError != null
+                            ? Colors.red
+                            : Theme.of(context).textTheme.bodyMedium?.color ??
+                                  AppColors.black,
+                      ),
                     ),
                   ),
                 if (ownershipError != null)
@@ -281,14 +324,18 @@ class _ScanningScreenState extends State<ScanningScreen> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8.0),
-                        ..._logs.map((log) => Text(
-                              log,
-                              style: const TextStyle(fontFamily: 'monospace', fontSize: 10),
-                            )),
+                        ..._logs.map(
+                          (log) => Text(
+                            log,
+                            style: const TextStyle(
+                              fontFamily: 'monospace',
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-
 
                 //Text(
                 //  ownershipError != null ? 'Error: $ownershipError' : '',

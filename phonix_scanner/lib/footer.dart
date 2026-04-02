@@ -7,17 +7,16 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontColor =
+        Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.font;
+
     return SafeArea(
       top: false,
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColors.font.withAlpha(30),
-            ),
-          ),
+          border: Border(top: BorderSide(color: fontColor.withAlpha(30))),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -25,18 +24,15 @@ class Footer extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
-              children: const [
+              children: [
                 Text(
                   'Created by ',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.font,
-                  ),
+                  style: TextStyle(fontSize: 12, color: fontColor),
                 ),
                 Hyperlink(
                   text: 'The Alana Project',
                   url: 'https://the-alana-project.xyz/',
-                  color: AppColors.font,
+                  color: fontColor,
                   size: 12,
                 ),
               ],
@@ -44,25 +40,21 @@ class Footer extends StatelessWidget {
             const SizedBox(height: 4),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   'This project is licenced under the ',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.font,
-                  ),
+                  style: TextStyle(fontSize: 12, color: fontColor),
                 ),
                 Hyperlink(
                   text: 'MIT licence',
                   url: 'https://opensource.org/license/mit',
-                  color: AppColors.font,
+                  color: fontColor,
                   size: 12,
                 ),
               ],
-            )
+            ),
           ],
         ),
-        
       ),
     );
   }

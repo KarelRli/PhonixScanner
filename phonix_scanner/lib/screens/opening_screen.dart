@@ -26,14 +26,21 @@ class OpeningScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontColor =
+        Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.font;
+    final highlightColor =
+      Theme.of(context).textSelectionTheme.cursorColor ??
+      AppColors.fontHighlight;
+
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings, color: AppColors.font),
+            icon: const Icon(Icons.settings),
             onPressed: () => _openSettingsSheet(context),
           ),
         ],
@@ -41,48 +48,53 @@ class OpeningScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: BackgroundAnimation(
         baseColor: Theme.of(context).scaffoldBackgroundColor,
-        glowColor: AppColors.fontHighlight,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Logo(
-                size: 120,
-                isAnimated: true,
-                action: () => Navigator.pushNamed(context, '/configuration'),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'PHOENIX GATE',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.fontHighlight,
+        glowColor: highlightColor,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top + kToolbarHeight,
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Logo(
+                  size: 120,
+                  isAnimated: true,
+                  action: () => Navigator.pushNamed(context, '/configuration'),
                 ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Verify your Memberships',
-                style: TextStyle(fontSize: 16, color: AppColors.font),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Powered By',
-                style: TextStyle(fontSize: 12, color: AppColors.font),
-              ),
-              const SizedBox(height: 10),
-              Hyperlink(
-                text: 'Unlock Protocol',
-                url: 'https://unlock-protocol.com/',
-                color: AppColors.fontHighlight,
-              ),
-              const SizedBox(height: 10),
-              Hyperlink(
-                text: 'Burner.pro',
-                url: 'https://www.burner.pro/',
-                color: AppColors.fontHighlight,
-              ),
-            ],
+                const SizedBox(height: 20),
+                Text(
+                  'PHOENIX GATE',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: highlightColor,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Verify your Memberships',
+                  style: TextStyle(fontSize: 16, color: fontColor),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Powered By',
+                  style: TextStyle(fontSize: 12, color: fontColor),
+                ),
+                const SizedBox(height: 10),
+                Hyperlink(
+                  text: 'Unlock Protocol',
+                  url: 'https://unlock-protocol.com/',
+                  color: highlightColor,
+                ),
+                const SizedBox(height: 10),
+                Hyperlink(
+                  text: 'Burner.pro',
+                  url: 'https://www.burner.pro/',
+                  color: highlightColor,
+                ),
+              ],
+            ),
           ),
         ),
       ),

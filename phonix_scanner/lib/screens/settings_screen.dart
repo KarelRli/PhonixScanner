@@ -141,6 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: _ImageSettingRow(
               textColor: settings.fontColor,
               highlightColor: settings.highlightColor,
+              buttonTextColor: settings.backgroundColor,
               imageBytes: SettingsModel.decodeImageBytes(
                 settings.customLogoImageBase64,
               ),
@@ -171,6 +172,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: _ImageSettingRow(
               textColor: settings.fontColor,
               highlightColor: settings.highlightColor,
+              buttonTextColor: settings.backgroundColor,
               imageBytes: SettingsModel.decodeImageBytes(
                 settings.membershipImageBase64,
               ),
@@ -400,6 +402,7 @@ class _ImageSettingRow extends StatelessWidget {
     required this.onReset,
     required this.textColor,
     required this.highlightColor,
+    required this.buttonTextColor,
   });
 
   final Uint8List? imageBytes;
@@ -408,6 +411,7 @@ class _ImageSettingRow extends StatelessWidget {
   final VoidCallback? onReset;
   final Color textColor;
   final Color highlightColor;
+  final Color buttonTextColor;
 
   @override
   Widget build(BuildContext context) {
@@ -445,8 +449,9 @@ class _ImageSettingRow extends StatelessWidget {
         ElevatedButton(
           onPressed: onUpload,
           style: ElevatedButton.styleFrom(
-            foregroundColor: textColor,
+            foregroundColor: buttonTextColor,
             backgroundColor: highlightColor,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.all(Radius.circular(8)))
           ),
           child: const Text('Choose file'),
         ),
