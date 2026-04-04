@@ -8,12 +8,14 @@ class SettingsModel extends ChangeNotifier {
   static const _kBackgroundColorKey = 'background_color';
   static const _kFontColorKey = 'font_color';
   static const _kHighlightColorKey = 'highlight_color';
+  static const _kButtonColorKey = 'button_color';
   static const _kCustomLogoImageKey = 'custom_logo_image_base64';
   static const _kMembershipImageKey = 'membership_image_base64';
 
   Color _backgroundColor = AppColors.backgroundPrimary;
   Color _fontColor = AppColors.font;
   Color _highlightColor = AppColors.fontHighlight;
+  Color _buttonColor = AppColors.buttons;
   String? _customLogoImageBase64;
   String? _membershipImageBase64;
 
@@ -24,6 +26,7 @@ class SettingsModel extends ChangeNotifier {
   Color get backgroundColor => _backgroundColor;
   Color get fontColor => _fontColor;
   Color get highlightColor => _highlightColor;
+  Color get buttonColor => _buttonColor;
   String? get customLogoImageBase64 => _customLogoImageBase64;
   String? get membershipImageBase64 => _membershipImageBase64;
 
@@ -63,6 +66,9 @@ class SettingsModel extends ChangeNotifier {
       _highlightColor = Color(
         prefs.getInt(_kHighlightColorKey) ?? AppColors.fontHighlight.toARGB32(),
       );
+      _buttonColor = Color(
+        prefs.getInt(_kButtonColorKey) ?? AppColors.buttons.toARGB32(),
+      );
       _customLogoImageBase64 = prefs.getString(_kCustomLogoImageKey);
       _membershipImageBase64 = prefs.getString(_kMembershipImageKey);
       notifyListeners();
@@ -99,6 +105,17 @@ class SettingsModel extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt(_kHighlightColorKey, color.toARGB32());
+    } catch (_) {
+      // ignore persistence errors
+    }
+  }
+
+  Future<void> setButtonColor(Color color) async {
+    _buttonColor = color;
+    notifyListeners();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt(_kButtonColorKey, color.toARGB32());
     } catch (_) {
       // ignore persistence errors
     }

@@ -230,6 +230,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
                 const SizedBox(height: 20),
                 Text(
                   'Verify NFT membership with NFC scan',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
                     color:

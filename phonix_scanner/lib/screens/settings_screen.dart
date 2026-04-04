@@ -121,6 +121,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 textColor: settings.fontColor,
                 borderColor: settings.highlightColor,
               ),
+              const SizedBox(height: 12),
+              _HexColorInputRow(
+                label: 'Buttons',
+                color: settings.buttonColor,
+                onColorChanged: settings.setButtonColor,
+                textColor: settings.fontColor,
+                borderColor: settings.highlightColor,
+              ),
             ],
           ),
 
@@ -321,7 +329,7 @@ class _HexColorInputRowState extends State<_HexColorInputRow> {
     final parsed = SettingsModel.tryParseHexColor(value);
     if (parsed == null) {
       setState(() {
-        _errorText = 'Use 6 or 8 hex digits';
+        _errorText = 'invalid';
       });
       return;
     }
@@ -334,6 +342,8 @@ class _HexColorInputRowState extends State<_HexColorInputRow> {
 
   @override
   Widget build(BuildContext context) {
+    final isInvalid = _errorText != null;
+
     return Row(
       children: [
         Text(
@@ -348,7 +358,7 @@ class _HexColorInputRowState extends State<_HexColorInputRow> {
           height: 42,
           decoration: BoxDecoration(
             color: widget.color,
-            border: Border.all(color: AppColors.white30),
+            border: Border.all(color: isInvalid ? Colors.red : AppColors.white30),
             borderRadius: BorderRadius.circular(6),
           ),
         ),
@@ -370,7 +380,6 @@ class _HexColorInputRowState extends State<_HexColorInputRow> {
               ),
               prefixText: '#',
               prefixStyle: TextStyle(color: widget.textColor),
-              errorText: _errorText,
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 12,
@@ -379,12 +388,16 @@ class _HexColorInputRowState extends State<_HexColorInputRow> {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
-                  color: widget.borderColor.withValues(alpha: 0.5),
+                  color: isInvalid
+                      ? Colors.red
+                      : widget.borderColor.withValues(alpha: 0.5),
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: widget.borderColor),
+                borderSide: BorderSide(
+                  color: isInvalid ? Colors.red : widget.borderColor,
+                ),
               ),
             ),
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phonix_scanner/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:phonix_scanner/models/settings_model.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton(
@@ -17,17 +19,18 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fontColor =
-        Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.black;
+    final settings = Provider.of<SettingsModel>(context);
+    final fontColor = settings.fontColor;
+    final buttonColor = settings.buttonColor;
 
     final ButtonStyle style = ButtonStyle(
       backgroundColor: WidgetStateProperty.resolveWith<Color?>((
         Set<WidgetState> states,
       ) {
         if (states.contains(WidgetState.disabled)) {
-          return AppColors.white.withAlpha(0);
+          return buttonColor.withAlpha(127);
         }
-        return AppColors.white;
+        return buttonColor;
       }),
       foregroundColor: WidgetStateProperty.resolveWith<Color?>((
         Set<WidgetState> states,
@@ -43,7 +46,7 @@ class PrimaryButton extends StatelessWidget {
         if (states.contains(WidgetState.disabled)) {
           return BorderSide(color: AppColors.white30);
         }
-        return BorderSide(color: AppColors.white);
+        return BorderSide(color: AppColors.white30);
       }),
       elevation: WidgetStateProperty.all(0),
       shape: WidgetStateProperty.all(

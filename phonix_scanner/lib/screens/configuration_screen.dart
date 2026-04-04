@@ -75,9 +75,12 @@ class ConfigurationScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 24, color: highlightColor),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                  'Configure the NFT contract to verify',
-                  style: TextStyle(fontSize: 16, color: fontColor),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Text(
+                    'Configure the NFT contract to verify',
+                    style: TextStyle(fontSize: 16, color: fontColor),
+                  ),
                 ),
                 const SizedBox(height: 40),
                 Padding(
