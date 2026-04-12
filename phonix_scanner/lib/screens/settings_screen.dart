@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:phonix_scanner/colors.dart';
@@ -17,7 +18,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  static const _maxImageBytes = 800 * 1024;
+  static const _maxImageBytes = 2000 * 1024;
   final ImagePicker _imagePicker = ImagePicker();
 
   Future<void> _pickImage({
@@ -30,6 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         maxWidth: 1200,
         maxHeight: 1200,
         imageQuality: 85,
+        requestFullMetadata: false,
       );
 
       if (selected == null) return;
@@ -37,13 +39,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
       if (!mounted) return;
       if (bytes.length > _maxImageBytes) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Image is too large. Please choose an image under ~800 KB.',
-            ),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Image is too large.')));
         return;
       }
 
@@ -340,6 +338,78 @@ class _HexColorInputRowState extends State<_HexColorInputRow> {
     widget.onColorChanged(parsed);
   }
 
+  Future<void> _openColorPicker() async {
+    Color selectedColor = widget.color;
+
+    final pickedColor = await showDialog<Color>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppColors.backgroundPrimary,
+          title: Text(
+            'Pick ${widget.label.toLowerCase()} color',
+            style: TextStyle(color: widget.textColor),
+          ),
+          content: Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: Theme.of(
+                context,
+              ).colorScheme.copyWith(primary: AppColors.fontHighlight),
+              inputDecorationTheme: const InputDecorationTheme(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.fontHighlight),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.fontHighlight,
+                    width: 0,
+                  ),
+                ),
+              ),
+            ),
+            child: SingleChildScrollView(
+              child: ColorPicker(
+                pickerColor: widget.color,
+                onColorChanged: (color) => selectedColor = color,
+                enableAlpha: false,
+                hexInputBar: true,
+                portraitOnly: true,
+                labelTypes: const [],
+                pickerAreaBorderRadius: BorderRadius.circular(12),
+                pickerAreaHeightPercent: 0.7,
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(selectedColor),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: AppColors.backgroundPrimary,
+                backgroundColor: AppColors.buttons,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.all(Radius.circular(8)),
+                ),
+              ),
+              child: const Text('Use color'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (pickedColor == null) return;
+
+    setState(() {
+      _controller.text = SettingsModel.colorToHex(pickedColor);
+      _errorText = null;
+    });
+    await widget.onColorChanged(pickedColor);
+  }
+
   @override
   Widget build(BuildContext context) {
     final isInvalid = _errorText != null;
@@ -353,13 +423,24 @@ class _HexColorInputRowState extends State<_HexColorInputRow> {
 
         const SizedBox(width: 8),
         const Spacer(),
-        Container(
-          width: 42,
-          height: 42,
-          decoration: BoxDecoration(
-            color: widget.color,
-            border: Border.all(color: isInvalid ? Colors.red : AppColors.white30),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
             borderRadius: BorderRadius.circular(6),
+            onTap: _openColorPicker,
+            child: Ink(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: widget.color,
+                border: Border.all(
+                  color: isInvalid
+                      ? Colors.red
+                      : const Color.fromARGB(77, 255, 255, 255),
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
           ),
         ),
         const SizedBox(width: 12),
@@ -464,7 +545,9 @@ class _ImageSettingRow extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             foregroundColor: buttonTextColor,
             backgroundColor: highlightColor,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.all(Radius.circular(8)))
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.all(Radius.circular(8)),
+            ),
           ),
           child: const Text('Choose file'),
         ),
