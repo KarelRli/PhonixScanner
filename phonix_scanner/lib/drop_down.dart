@@ -180,9 +180,9 @@ class MenuWidget extends StatelessWidget {
                       Expanded(
                         child: Text(
                           item.displayName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
-                            color: Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.black,
+                            color: AppColors.backgroundPrimary,
                           ),
                         ),
                       ),
@@ -190,7 +190,7 @@ class MenuWidget extends StatelessWidget {
                         Icon(
                           Icons.check,
                           size: 16,
-                          color: Theme.of(context).textTheme.bodyMedium?.color ?? AppColors.black,
+                          color: AppColors.backgroundPrimary,
                         ),
                     ],
                   ),

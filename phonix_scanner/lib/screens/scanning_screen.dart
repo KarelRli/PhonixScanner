@@ -308,6 +308,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
                       style: const TextStyle(color: Colors.red),
                     ),
                   ),
+                /*
                 if (_logs.isNotEmpty)
                   Container(
                     margin: const EdgeInsets.all(24.0),
@@ -337,7 +338,7 @@ class _ScanningScreenState extends State<ScanningScreen> {
                       ],
                     ),
                   ),
-
+                */
                 //Text(
                 //  ownershipError != null ? 'Error: $ownershipError' : '',
                 //  style: const TextStyle(color: Colors.red),
